@@ -1,13 +1,15 @@
 {
   "name": "sqlai",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "extension",
+    "backend"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+    "dev:backend": "npm --workspace=backend run dev",
+    "dev:extension": "npm --workspace=extension run watch",
+    "test": "npm --workspace=backend run test",
+    "build": "npm --workspace=backend run build && npm --workspace=extension run build"
+  }
 }
