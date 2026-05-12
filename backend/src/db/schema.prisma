@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String         @id @default(cuid())
+  email        String         @unique
+  password     String
+  createdAt    DateTime       @default(now())
+  queryHistory QueryHistory[]
+  usageLogs    UsageLog[]
+}
+
+model QueryHistory {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  prompt      String
+  sql         String
+  dialect     String
+  cached      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model UsageLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  count     Int      @default(0)
+  date      DateTime @default(now()) @db.Date
+  @@unique([userId, date])
+}
