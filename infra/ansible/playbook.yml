@@ -1,0 +1,148 @@
+---
+- name: Configure SQL AI backend server
+  hosts: backend
+  become: true  # sudo
+
+  vars:
+    node_version: "20"
+    app_dir: "/app/backend"
+    domain_name: "api.sqlai.dev"  # change to your domain
+    log_dir: "/var/log/sqlai"
+
+  tasks:
+
+    # ── System packages ─────────────────────────────────────────
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install system dependencies
+      apt:
+        name:
+          - curl
+          - git
+          - nginx
+          - certbot
+          - python3-certbot-nginx
+          - ufw
+        state: present
+
+    # ── Node.js via NodeSource ───────────────────────────────────
+    - name: Add NodeSource repo
+      shell: |
+        curl -fsSL https://deb.nodesource.com/setup_{{ node_version }}.x | bash -
+      args:
+        creates: /etc/apt/sources.list.d/nodesource.list
+
+    - name: Install Node.js
+      apt:
+        name: nodejs
+        state: present
+
+    # ── PM2 ─────────────────────────────────────────────────────
+    - name: Install PM2 globally
+      npm:
+        name: pm2
+        global: yes
+        state: present
+
+    - name: Configure PM2 to start on boot
+      shell: pm2 startup systemd -u ubuntu --hp /home/ubuntu
+      args:
+        creates: /etc/systemd/system/pm2-ubuntu.service
+
+    # ── App directory ────────────────────────────────────────────
+    - name: Create app directory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Create log directory
+      file:
+        path: "{{ log_dir }}"
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    # ── Copy PM2 ecosystem config ────────────────────────────────
+    - name: Copy PM2 ecosystem config
+      copy:
+        src: roles/ecosystem.config.js
+        dest: "{{ app_dir }}/ecosystem.config.js"
+        owner: ubuntu
+        group: ubuntu
+
+    # ── Nginx ────────────────────────────────────────────────────
+    - name: Copy Nginx config
+      template:
+        src: roles/nginx.conf.j2
+        dest: /etc/nginx/sites-available/sqlai
+        mode: '0644'
+      vars:
+        domain_name: "{{ domain_name }}"
+
+    - name: Enable Nginx site
+      file:
+        src: /etc/nginx/sites-available/sqlai
+        dest: /etc/nginx/sites-enabled/sqlai
+        state: link
+
+    - name: Remove default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Test Nginx config
+      command: nginx -t
+      changed_when: false
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
+
+    # ── SSL via Certbot ──────────────────────────────────────────
+    - name: Obtain SSL certificate
+      command: >
+        certbot --nginx
+        -d {{ domain_name }}
+        --non-interactive
+        --agree-tos
+        --email admin@sqlai.dev
+      args:
+        creates: /etc/letsencrypt/live/{{ domain_name }}/fullchain.pem
+
+    # ── Firewall ─────────────────────────────────────────────────
+    - name: Allow SSH
+      ufw:
+        rule: allow
+        port: '22'
+        proto: tcp
+
+    - name: Allow HTTP
+      ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
+
+    - name: Allow HTTPS
+      ufw:
+        rule: allow
+        port: '443'
+        proto: tcp
+
+    - name: Enable UFW firewall
+      ufw:
+        state: enabled
+        policy: deny
+
+    # ── Final message ────────────────────────────────────────────
+    - name: Done
+      debug:
+        msg: "Server configured. Deploy your app and run: pm2 start ecosystem.config.js --env production && pm2 save"
