@@ -5,9 +5,8 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /app
 
 COPY package*.json ./
-COPY prisma ./prisma/
 
-RUN npm ci --only=production && npx prisma generate
+RUN npm ci --only=production
 
 COPY . .
 
