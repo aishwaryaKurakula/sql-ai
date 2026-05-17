@@ -25,7 +25,7 @@ const loginSchema = z.object({
 
 // POST /auth/register
 router.post(
-  '/auth/register',
+  '/register',
   validate(registerSchema),
 
   async (req, res) => {
@@ -73,7 +73,7 @@ router.post(
 
 // POST /auth/login
 router.post(
-  '/auth/login',
+  '/login',
   validate(loginSchema),
 
   async (req, res) => {
