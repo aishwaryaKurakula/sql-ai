@@ -21,6 +21,24 @@ Users can describe the data they want in natural language, choose a SQL dialect,
 
 The platform also keeps a query history, caches repeated requests, protects the API with auth and middleware, and alerts users as they approach daily usage limits.
 
+## Screenshots
+
+### Signup
+
+![SQL AI signup screen](/screenshots/sign%20up.png)
+
+### Dashboard
+
+![SQL AI dashboard](/screenshots/dashboard.png)
+
+### Query Experience
+
+![SQL AI query screen](/screenshots/query.png)
+
+### History
+
+![SQL AI history screen](/screenshots/history.png)
+
 ## Architecture
 
 ### Frontend
