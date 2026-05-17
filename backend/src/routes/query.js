@@ -45,7 +45,7 @@ const DAILY_LIMIT = 100
 const ALERT_THRESHOLD = 0.8
 
 router.post(
-  '/query',
+  '/',
 
   verifyJWT,
 
