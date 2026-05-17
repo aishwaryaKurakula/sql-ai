@@ -11,5 +11,9 @@
     "dev:extension": "npm --workspace=extension run watch",
     "test": "npm --workspace=backend run test",
     "build": "npm --workspace=backend run build && npm --workspace=extension run build"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "groq-sdk": "^1.2.0"
   }
 }
