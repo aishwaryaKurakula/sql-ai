@@ -4,7 +4,7 @@ const prisma = require('../db/prisma')
 
 const router = Router()
 
-router.get('/health', async (_req, res) => {
+router.get('/', async (_req, res) => {
   try {
     // Ping the DB to confirm it's reachable
     await prisma.$queryRaw`SELECT 1`
