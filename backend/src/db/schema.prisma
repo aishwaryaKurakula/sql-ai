@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
@@ -17,21 +18,22 @@ model User {
 }
 
 model QueryHistory {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  prompt      String
-  sql         String
-  dialect     String
-  cached      Boolean  @default(false)
-  createdAt   DateTime @default(now())
-}
-
-model UsageLog {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id])
-  count     Int      @default(0)
-  date      DateTime @default(now()) @db.Date
+  prompt    String
+  sql       String
+  dialect   String
+  cached    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model UsageLog {
+  id     String   @id @default(cuid())
+  userId String
+  user   User     @relation(fields: [userId], references: [id])
+  count  Int      @default(0)
+  date   DateTime @default(now()) @db.Date
+
   @@unique([userId, date])
 }
