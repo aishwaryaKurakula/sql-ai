@@ -1,5 +1,4 @@
 const { Router } = require('express')
-
 const prisma = require('../db/prisma')
 
 const {
@@ -10,7 +9,7 @@ const router = Router()
 
 // GET /history — last 50 queries
 router.get(
-  '/history',
+  '/',
   verifyJWT,
 
   async (req, res) => {
@@ -33,7 +32,7 @@ router.get(
 
 // DELETE /history/:id
 router.delete(
-  '/history/:id',
+  '/:id',
   verifyJWT,
 
   async (req, res) => {
