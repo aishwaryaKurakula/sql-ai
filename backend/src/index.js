@@ -4,12 +4,23 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors({
-  origin: [
-    'https://sql-ai-here.netlify.app',
-    'http://localhost:5173'
-  ],
-  credentials: true
+  origin: (origin, callback) => {
+    const allowed = [
+      'https://sql-ai-here.netlify.app',
+      'http://localhost:5173'
+    ]
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+app.options('*', cors());
 
 app.use(express.json());
 
