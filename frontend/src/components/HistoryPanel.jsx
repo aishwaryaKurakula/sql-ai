@@ -7,19 +7,20 @@ export default function HistoryPanel() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        const res = await api.get('/history')
-        setHistory(res.data.slice(0, 5))
-      } catch {
-        // silently fail
-      } finally {
-        setLoading(false)
-      }
+  const fetchHistory = async () => {
+    try {
+      const res = await api.get('/history')
+      console.log('history response:', res.data)
+      setHistory(res.data.slice(0, 5))
+    } catch (err) {
+      console.error('history fetch failed:', err)
+      setError('Failed to load history')
+    } finally {
+      setLoading(false)
     }
-    fetch()
-  }, [])
-
+  }
+  fetchHistory()
+}, [])
   if (loading) return null
 
   if (history.length === 0) return null

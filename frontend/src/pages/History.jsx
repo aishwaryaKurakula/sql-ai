@@ -9,19 +9,21 @@ export default function History() {
   const [expanded, setExpanded] = useState(null)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const res = await api.get('/history')
-        setHistory(res.data)
-      } catch (err) {
-        setError('Failed to load history')
-      } finally {
-        setLoading(false)
-      }
+ useEffect(() => {
+  const fetchHistory = async () => {
+    try {
+      const res = await api.get('/history')
+      console.log('history response:', res.data)
+      setHistory(res.data.slice(0, 5))
+    } catch (err) {
+      console.error('history fetch failed:', err)
+      setError('Failed to load history')
+    } finally {
+      setLoading(false)
     }
-    fetch()
-  }, [])
+  }
+  fetchHistory()
+}, [])
 
   const handleLogout = () => {
     localStorage.removeItem('token')
