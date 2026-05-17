@@ -3,6 +3,7 @@
   "displayName": "SQL AI",
   "description": "Generate SQL queries from plain English using AI",
   "version": "0.0.1",
+  "publisher": "aishwaryaKurakula",
   "engines": { "vscode": "^1.85.0" },
   "categories": ["Other"],
   "activationEvents": ["onStartupFinished"],
