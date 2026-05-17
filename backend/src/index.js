@@ -4,12 +4,15 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors({
-  origin: '*'
+  origin: [
+    'https://sql-ai-here.netlify.app',
+    'http://localhost:5173'
+  ],
+  credentials: true
 }));
 
 app.use(express.json());
 
-// Routes
 const authRoutes = require('./routes/auth');
 const healthRoutes = require('./routes/health');
 const historyRoutes = require('./routes/history');
