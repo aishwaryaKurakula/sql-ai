@@ -9,6 +9,10 @@
   "activationEvents": ["onStartupFinished"],
   "main": "./src/extension.js",
   "icon": "assets/favicon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aishwaryaKurakula/sql-ai",
+  },
   "contributes": {
     "viewsContainers": {
       "activitybar": [
