@@ -8,7 +8,7 @@
   "categories": ["Other"],
   "activationEvents": ["onStartupFinished"],
   "main": "./src/extension.js",
-  "icon": "assets/marketplace-icon.png",
+  "icon": "assets/favicon.png",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
