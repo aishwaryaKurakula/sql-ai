@@ -11,6 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["src", "emails"],
+  "include": ["src/index.js"],
   "exclude": ["node_modules", "dist", "tests"]
 }
+

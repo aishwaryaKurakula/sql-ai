@@ -8,14 +8,9 @@
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
-  "main": "./src/extension.js",
-"icon": "./assets/icon.png",
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "icon": "./assets/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/aishwaryaKurakula/sql-ai"
@@ -26,7 +21,7 @@
         {
           "id": "sqlai-sidebar",
           "title": "SQL AI",
-"icon": "./assets/icon.svg"
+          "icon": "./assets/icon.svg"
         }
       ]
     },
@@ -50,7 +45,6 @@
     "build": "vite build",
     "watch": "tsc -watch -p tsconfig.json"
   },
-
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/vscode": "^1.85.0",
@@ -62,3 +56,4 @@
     "vite": "^5.0.0"
   }
 }
+
