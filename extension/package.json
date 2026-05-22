@@ -2,14 +2,16 @@
   "name": "sqlai",
   "displayName": "SQL AI",
   "description": "Generate SQL queries from plain English using AI",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "aishwaryaKurakula",
-  "readme": "README.md",
   "engines": {
     "vscode": "^1.85.0"
   },
+  "readme": "README.md",
   "categories": ["Other"],
+  "main": "./src/extension.js",
   "activationEvents": ["onStartupFinished"],
+
   "icon": "./assets/icon.png",
   "repository": {
     "type": "git",

@@ -51,7 +51,7 @@ class SidebarProvider {
     html = html.replace(/<script/g, `<script nonce="${nonce}"`)
     html = html.replace(
       "<head>",
-      `<head><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource} https: data:; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}'; connect-src http://localhost:3000 https:;">`
+      `<head><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource} https: data:; style-src ${webview.cspSource} 'unsafe-inline' 'self'; script-src 'nonce-${nonce}'; connect-src http://localhost:3000 https:; font-src ${webview.cspSource} data: https:;">`
     )
     return html
   }

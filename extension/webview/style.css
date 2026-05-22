@@ -1,0 +1,44 @@
+/* Use VS Code theme variables inside the webview.
+   VS Code provides many theme color variables under var(--vscode-*)
+*/
+
+:root {
+  color-scheme: dark;
+
+  --sqlai-bg: var(--vscode-editor-background, #1e1e1e);
+  --sqlai-surface: var(--vscode-panel-background, transparent);
+  --sqlai-border: var(--vscode-panel-border, rgba(255,255,255,0.08));
+  --sqlai-fg: var(--vscode-foreground, #d4d4d4);
+  --sqlai-muted: var(--vscode-descriptionForeground, #858585);
+  --sqlai-accent: var(--vscode-button-background, #0e639c);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--sqlai-bg);
+  color: var(--sqlai-fg);
+  font-family: var(--vscode-font-family, system-ui);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+textarea,
+select,
+button {
+  font-family: inherit;
+}
+
+/* Make common elements inherit theme colors */
+pre,
+code {
+  font-family: var(--vscode-editor-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+  color: var(--vscode-editor-foreground, #d4d4d4);
+}
+
