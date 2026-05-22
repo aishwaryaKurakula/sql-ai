@@ -10,6 +10,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": ["src"],
+  "include": ["src/**/*.js"],
   "exclude": ["node_modules", "dist", "webview"]
+
 }
+

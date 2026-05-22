@@ -119,7 +119,7 @@ export const UsageAlertEmail = ({
 
 const styles = {
   body: {
-    backgroundColor: '#f4f4f5',
+    backgroundColor: '#0a0a0a',
     fontFamily:
       '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     margin: 0,
@@ -129,14 +129,14 @@ const styles = {
   container: {
     maxWidth: '560px',
     margin: '0 auto',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#111111',
     borderRadius: '12px',
     overflow: 'hidden',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+    boxShadow: '0 1px 3px rgba(0,0,0,0.3)'
   },
 
   header: {
-    backgroundColor: '#d97706',
+    backgroundColor: '#0e7a54',
     padding: '32px 40px',
     textAlign: 'center'
   },
@@ -173,8 +173,8 @@ const styles = {
   },
 
   usageBox: {
-    backgroundColor: '#fffbeb',
-    border: '1px solid #fde68a',
+    backgroundColor: '#0b1220',
+    border: '1px solid #1f2a44',
     borderRadius: '8px',
     padding: '20px',
     marginBottom: '20px'
@@ -200,7 +200,7 @@ const styles = {
   },
 
   progressTrack: {
-    backgroundColor: '#fde68a',
+    backgroundColor: '#1f2a44',
     borderRadius: '999px',
     height: '10px',
     marginBottom: '8px',
@@ -208,7 +208,7 @@ const styles = {
   },
 
   progressFill: {
-    backgroundColor: '#d97706',
+    backgroundColor: '#29B6F6',
     height: '100%',
     borderRadius: '999px'
   },
@@ -274,3 +274,4 @@ const styles = {
 }
 
 export default UsageAlertEmail
+

@@ -20,7 +20,7 @@ function activate(context) {
     vscode.commands.registerCommand(
       'sqlai.openSidebar',
       () => {
-        vscode.commands.executeCommand('sqlai.sidebar.focus')
+        vscode.commands.executeCommand('workbench.view.extension.sqlai-sidebar')
       }
     )
   )

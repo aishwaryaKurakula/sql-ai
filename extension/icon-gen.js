@@ -1,0 +1,27 @@
+const fs = require('fs');
+const sharp = require('sharp');
+
+const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='128' height='128'>
+  <ellipse cx='50' cy='22' rx='35' ry='12' fill='#4FC3F7'/>
+  <rect x='15' y='22' width='70' height='22' fill='#4FC3F7'/>
+  <ellipse cx='50' cy='44' rx='35' ry='12' fill='#4FC3F7'/>
+  <rect x='15' y='44' width='70' height='22' fill='#29B6F6'/>
+  <ellipse cx='50' cy='66' rx='35' ry='12' fill='#29B6F6'/>
+  <rect x='15' y='66' width='70' height='22' fill='#0288D1'/>
+  <ellipse cx='50' cy='88' rx='35' ry='12' fill='#0288D1'/>
+  <text x='50' y='50' text-anchor='middle' font-family='monospace' font-weight='bold' font-size='13' fill='white'>SQL</text>
+</svg>`;
+
+fs.mkdirSync('assets', { recursive: true });
+fs.writeFileSync('assets/icon.svg', svg);
+
+sharp(Buffer.from(svg))
+  .resize(128, 128)
+  .png()
+  .toFile('assets/icon.png')
+  .then(() => console.log('Icon created successfully'))
+  .catch((err) => {
+    console.error('Icon error:', err);
+    process.exit(1);
+  });
+

@@ -108,27 +108,30 @@ export const WelcomeEmail = ({ email }) => {
 
 const styles = {
   body: {
-    backgroundColor: '#f4f4f5',
+    backgroundColor: '#0a0a0a',
     fontFamily:
       '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     margin: 0,
     padding: '40px 0'
   },
 
+
   container: {
     maxWidth: '560px',
     margin: '0 auto',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#111111',
     borderRadius: '12px',
     overflow: 'hidden',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+    boxShadow: '0 1px 3px rgba(0,0,0,0.3)'
   },
 
+
   header: {
-    backgroundColor: '#1a56db',
+    backgroundColor: '#0e7a54',
     padding: '32px 40px',
     textAlign: 'center'
   },
+
 
   logo: {
     color: '#ffffff',
@@ -253,4 +256,4 @@ const styles = {
   }
 }
 
-export default WelcomeEmails
+export default WelcomeEmail
