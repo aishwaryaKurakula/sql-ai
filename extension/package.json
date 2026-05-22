@@ -4,6 +4,7 @@
   "description": "Generate SQL queries from plain English using AI",
   "version": "0.0.3",
   "publisher": "aishwaryaKurakula",
+   "readme": "README.md", 
   "engines": { "vscode": "^1.85.0" },
   "categories": ["Other"],
   "activationEvents": ["onStartupFinished"],

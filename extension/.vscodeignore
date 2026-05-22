@@ -1,8 +1,12 @@
+../backend/**
+../frontend/**
+../node_modules/**
 node_modules/**
 *.vsix
 .env
 **/.env
 .env.*
+**/.env.*
 tsconfig.json
 vite.config.js
 **/*.ts
