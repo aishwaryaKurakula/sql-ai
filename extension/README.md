@@ -28,6 +28,23 @@ SQL AI is a VS Code extension that converts natural language prompts into SQL qu
 
 ---
 
+## Screenshots website working 
+
+### Generate SQL from plain English
+![Query Generation](screenshots/query.png)
+
+### View query history
+![History](screenshots/history.png)
+
+### Dashboard overview
+![Dashboard](screenshots/dashboard.png)
+
+### vs code extension
+![Install](screenshots/install.png)
+
+
+
+
 ## Demo
 
 ```

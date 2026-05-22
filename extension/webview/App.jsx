@@ -1,4 +1,11 @@
+
 import React, { useState } from 'react'
+import { useQuery } from './hooks/useQuery'
+import { useHistory } from './hooks/useHistory'
+import { QueryInput } from './components/QueryInput'
+import { ResultTable as QueryResult } from './components/ResultTable'
+import { HistoryPanel } from './components/HistoryPanel'
+import { SchemaStatus } from './components/SchemaStatus'
 
 const vscode = typeof acquireVsCodeApi !== 'undefined'
   ? acquireVsCodeApi()

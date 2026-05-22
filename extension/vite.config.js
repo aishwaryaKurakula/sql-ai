@@ -1,17 +1,15 @@
-const { defineConfig } = require('vite')
-const react = require('@vitejs/plugin-react')
-const path = require('path')
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
 
-module.exports = defineConfig({
+export default defineConfig({
   plugins: [react()],
+  root: path.resolve(__dirname, 'webview'),
   build: {
-    outDir: 'dist/webview',
+    outDir: path.resolve(__dirname, 'dist/webview'),
+    emptyOutDir: true,
     rollupOptions: {
-      input: path.resolve(__dirname, 'webview/main.jsx'),
-      output: {
-        entryFileNames: 'main.js',
-        assetFileNames: 'main.css'
-      }
+      input: path.resolve(__dirname, 'webview/index.html'),
     }
   }
 })

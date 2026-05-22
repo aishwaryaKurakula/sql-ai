@@ -35,57 +35,39 @@ class SidebarProvider {
       }
     })
   }
+_getHtmlForWebview(webview) {
+  const indexPath = vscode.Uri.joinPath(
+    this._extensionUri, 'dist', 'webview', 'index.html'
+  )
 
-  _getHtmlForWebview(webview) {
-    const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this._extensionUri,
-        'dist',
-        'webview',
-        'main.js'
-      )
-    )
+  let html = fs.readFileSync(indexPath.fsPath, 'utf8')
 
-    const styleUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this._extensionUri,
-        'dist',
-        'webview',
-        'main.css'
-      )
-    )
+  html = html.replace(
+    /(src|href)="([^"]+)"/g,
+    (match, attr, value) => {
+      if (value.startsWith('/') || value.startsWith('./') || value.startsWith('assets/')) {
+        const assetPath = value.startsWith('/') ? value.slice(1) : value
+        const uri = webview.asWebviewUri(
+          vscode.Uri.joinPath(this._extensionUri, 'dist', 'webview', assetPath)
+        )
+        return `${attr}="${uri}"`
+      }
+      return match
+    }
+  )
 
-    const nonce = getNonce()
+  const nonce = getNonce()
+  html = html.replace(/<script/g, `<script nonce="${nonce}"`)
+  html = html.replace(
+    '<head>',
+    `<head><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}';">`
+  )
 
-    return `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  
-  <meta
-    http-equiv="Content-Security-Policy"
-    content="default-src 'none';
-    style-src ${webview.cspSource} 'unsafe-inline';
-    script-src 'nonce-${nonce}';"
-  />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link href="${styleUri}" rel="stylesheet" />
-
-  <title>SQL AI</title>
-</head>
-
-<body>
-  <div id="root"></div>
-
-  <script nonce="${nonce}" src="${scriptUri}"></script>
-</body>
-</html>
-`
-  }
+  return html
 }
+  
+  }
+
 
 function getNonce() {
   let text = ''
