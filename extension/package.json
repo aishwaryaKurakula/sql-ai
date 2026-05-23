@@ -2,7 +2,7 @@
   "name": "sqlai",
   "displayName": "SQL AI",
   "description": "Generate SQL queries from plain English using AI",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "aishwaryaKurakula",
   "engines": {
     "vscode": "^1.85.0"
