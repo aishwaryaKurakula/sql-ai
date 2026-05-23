@@ -1,8 +1,18 @@
 const { Resend } = require('resend')
 
+// Fail fast on misconfiguration so Railway logs clearly show the issue.
+if (!process.env.RESEND_API_KEY) {
+  console.error('[email] Missing RESEND_API_KEY')
+}
+
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+// NOTE: Resend requires the sender to be verified in your Resend dashboard.
 const FROM = process.env.RESEND_FROM_EMAIL || 'noreply@sqlai.dev'
+
+if (!process.env.RESEND_FROM_EMAIL) {
+  console.warn('[email] RESEND_FROM_EMAIL not set. Using fallback:', FROM)
+}
 
 const renderEmailTemplate = (type, props) => {
   const email = props?.email || ''
@@ -21,8 +31,8 @@ const renderEmailTemplate = (type, props) => {
             <div style="font-size:14px; color:#0a0a0a; opacity:0.9;">Usage Alert</div>
           </div>
           <div style="padding:40px;">
-            <div style="font-size:20px; font-weight:800; margin-bottom:12px;">You\u2019ve used ${percentage}% of your daily quota \u26a0\ufe0f</div>
-            <div style="font-size:15px; color:#cbd5e1; line-height:1.6; margin-bottom:24px;">Hey <strong>${email}</strong>, you\u2019re running low on queries for today.</div>
+            <div style="font-size:20px; font-weight:800; margin-bottom:12px;">Youve used ${percentage}% of your daily quota 6a06a0</div>
+            <div style="font-size:15px; color:#cbd5e1; line-height:1.6; margin-bottom:24px;">Hey <strong>${email}</strong>, youre running low on queries for today.</div>
 
             <div style="background:#0b1220; border:1px solid #1f2a44; border-radius:8px; padding:20px; margin-bottom:20px;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -40,7 +50,7 @@ const renderEmailTemplate = (type, props) => {
 
             <div style="background:#0f172a; border:1px solid #00ff88; border-radius:8px; padding:16px 20px; margin-bottom:16px;">
               <div style="font-size:13px; font-weight:800; color:#00ff88; margin-bottom:8px;">\uD83D\uDCA1 Make your queries go further</div>
-              <div style="font-size:13px; color:#cbd5e1; line-height:1.6;">Cached queries are free and don\u2019t count toward your limit. Repeat the same prompt (same prompt + schema) to get instant results at zero cost.</div>
+              <div style="font-size:13px; color:#cbd5e1; line-height:1.6;">Cached queries are free and dont count toward your limit. Repeat the same prompt (same prompt + schema) to get instant results at zero cost.</div>
             </div>
 
             <div style="text-align:center; padding:12px; background:#f9fafb; border-radius:8px;">
@@ -67,7 +77,7 @@ const renderEmailTemplate = (type, props) => {
         </div>
         <div style="padding:40px;">
           <div style="font-size:22px; font-weight:800; margin-bottom:12px; color:#f0f0f0;">Welcome aboard \uD83D\uDC4B</div>
-          <div style="font-size:15px; color:#cbd5e1; line-height:1.6; margin-bottom:24px;">You\u2019re all set, <strong>${email}</strong>. SQL AI is now ready inside your VS Code.</div>
+          <div style="font-size:15px; color:#cbd5e1; line-height:1.6; margin-bottom:24px;">Youre all set, <strong>${email}</strong>. SQL AI is now ready inside your VS Code.</div>
 
           <div style="background:#1e1e2e; border-radius:8px; padding:16px 20px; margin-bottom:20px;">
             <div style="font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 8px;">Try this</div>
@@ -92,6 +102,8 @@ const renderEmailTemplate = (type, props) => {
 
 const sendWelcomeEmail = async (to) => {
   try {
+    if (!to) throw new Error('Missing recipient email (to)')
+
     await resend.emails.send({
       from: FROM,
       to,
@@ -99,21 +111,38 @@ const sendWelcomeEmail = async (to) => {
       html: renderEmailTemplate('welcome', { email: to })
     })
   } catch (err) {
-    console.error('Welcome email failed:', err)
+    console.error('Welcome email failed:', {
+      message: err?.message,
+      statusCode: err?.statusCode,
+      body: err?.body,
+      response: err?.response,
+      to
+    })
   }
 }
 
 const sendUsageAlertEmail = async (to, used, limit) => {
   try {
+    if (!to) throw new Error('Missing recipient email (to)')
+
     await resend.emails.send({
       from: FROM,
       to,
-      subject: `SQL AI - you\u2019ve used ${Math.round((used / limit) * 100)}% of your daily quota`,
+      subject: `SQL AI - youve used ${Math.round((used / limit) * 100)}% of your daily quota`,
       html: renderEmailTemplate('usage-alert', { email: to, used, limit })
     })
   } catch (err) {
-    console.error('Usage alert email failed:', err)
+    console.error('Usage alert email failed:', {
+      message: err?.message,
+      statusCode: err?.statusCode,
+      body: err?.body,
+      response: err?.response,
+      to,
+      used,
+      limit
+    })
   }
 }
 
 module.exports = { sendWelcomeEmail, sendUsageAlertEmail }
+

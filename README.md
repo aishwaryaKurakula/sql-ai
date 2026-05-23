@@ -25,19 +25,19 @@ The platform also keeps a query history, caches repeated requests, protects the 
 
 ### Signup
 
-![SQL AI signup screen](/screenshots/sign%20up.png)
+![SQL AI signup screen](/screenshots-copy/sign%20up.png)
 
 ### Dashboard
 
-![SQL AI dashboard](/screenshots/dashboard.png)
+![SQL AI dashboard](/screenshots-copy/dashboard.png)
 
 ### Query Experience
 
-![SQL AI query screen](/screenshots/query.png)
+![SQL AI query screen](/screenshots-copy/query.png)
 
 ### History
 
-![SQL AI history screen](/screenshots/history.png)
+![SQL AI history screen](/screenshots-copy/history.png)
 
 ## Architecture
 
