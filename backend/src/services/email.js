@@ -1,25 +1,15 @@
-const React = require('react')
 const { Resend } = require('resend')
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 const FROM = process.env.RESEND_FROM_EMAIL || 'noreply@sqlai.dev'
 
-const { WelcomeEmail } = require('../../emails/Welcome.jsx')
-const { UsageAlertEmail } = require('../../emails/UsageAlert.jsx')
-
-const renderEmailTemplate = (Template, props) => {
-  // Resend accepts raw HTML. These templates are authored as React.
-  // In this project we already store them as JSX, but we currently send HTML directly.
-  // For reliability (no ReactDOMServer dependency), we fallback to a minimal theme HTML.
-  // (We still pass email props through.)
-
-  // NOTE: If you later add react-dom/server, we can render true JSX.
+const renderEmailTemplate = (type, props) => {
   const email = props?.email || ''
   const used = props?.used
   const limit = props?.limit
 
-  if (Template === UsageAlertEmail) {
+  if (type === 'usage-alert') {
     const percentage = Math.round((used / limit) * 100)
     const remaining = limit - used
 
@@ -59,7 +49,7 @@ const renderEmailTemplate = (Template, props) => {
           </div>
 
           <div style="background:#f9fafb; border-top:1px solid #e5e7eb; padding:24px 40px; text-align:center;">
-            <div style="font-size:12px; color:#9ca3af; margin:0 0 4px;">Built with \u2764\ufe0f by SQL AI</div>
+            <div style="font-size:12px; color:#9ca3af; margin:0 0 4px;">Built with \u2764\ufe0f by Aishwarya Kurakula</div>
             <div style="font-size:12px; color:#9ca3af; margin:0;">You received this because you have a SQL AI account registered to ${email}.</div>
           </div>
         </div>
@@ -77,7 +67,7 @@ const renderEmailTemplate = (Template, props) => {
         </div>
         <div style="padding:40px;">
           <div style="font-size:22px; font-weight:800; margin-bottom:12px; color:#f0f0f0;">Welcome aboard \uD83D\uDC4B</div>
-          <div style="font-size:15px; color:#cbd5e1; line-height:1.6; margin-bottom:24px;">You\u2019re all set, <strong>${to}</strong>. SQL AI is now ready inside your VS Code.</div>
+          <div style="font-size:15px; color:#cbd5e1; line-height:1.6; margin-bottom:24px;">You\u2019re all set, <strong>${email}</strong>. SQL AI is now ready inside your VS Code.</div>
 
           <div style="background:#1e1e2e; border-radius:8px; padding:16px 20px; margin-bottom:20px;">
             <div style="font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 8px;">Try this</div>
@@ -92,7 +82,7 @@ const renderEmailTemplate = (Template, props) => {
         </div>
 
         <div style="background:#f9fafb; border-top:1px solid #e5e7eb; padding:24px 40px; text-align:center;">
-          <div style="font-size:12px; color:#9ca3af; margin:0 0 4px;">Built with \u2764\ufe0f by SQL AI</div>
+          <div style="font-size:12px; color:#9ca3af; margin:0 0 4px;">Built with \u2764\ufe0f by Aishwarya Kurakula</div>
           <div style="font-size:12px; color:#9ca3af; margin:0;">You received this because you signed up at SQL AI.</div>
         </div>
       </div>
@@ -106,7 +96,7 @@ const sendWelcomeEmail = async (to) => {
       from: FROM,
       to,
       subject: 'Welcome to SQL AI',
-      html: renderEmailTemplate(WelcomeEmail, { to })
+      html: renderEmailTemplate('welcome', { email: to })
     })
   } catch (err) {
     console.error('Welcome email failed:', err)
@@ -119,7 +109,7 @@ const sendUsageAlertEmail = async (to, used, limit) => {
       from: FROM,
       to,
       subject: `SQL AI - you\u2019ve used ${Math.round((used / limit) * 100)}% of your daily quota`,
-      html: renderEmailTemplate(UsageAlertEmail, { email: to, used, limit })
+      html: renderEmailTemplate('usage-alert', { email: to, used, limit })
     })
   } catch (err) {
     console.error('Usage alert email failed:', err)
@@ -127,4 +117,3 @@ const sendUsageAlertEmail = async (to, used, limit) => {
 }
 
 module.exports = { sendWelcomeEmail, sendUsageAlertEmail }
-
