@@ -39,6 +39,9 @@ The platform also keeps a query history, caches repeated requests, protects the 
 
 ![SQL AI history screen](/screenshots-copy/history.png)
 
+### VS code View
+![SQL AI vscode view](/screenshots-copy/vs-code.png)
+
 ## Architecture
 
 ### Frontend

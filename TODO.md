@@ -1,5 +1,7 @@
-- [x] Diagnose and fix VS Code extension activity bar icon wiring
-- [ ] Update extension webview theme to match frontend theme
-- [ ] Rebuild extension and verify webview theme
-- [ ] If needed, adjust webview CSP/styles to ensure theme CSS is loaded
+- [ ] Explore repo for where “failed to fetch” is generated (webview CSP / fetch URL).
+- [x] Identified CSP in extension/src/sidebarProvider.js as blocker.
+- [x] Implemented permanent CSP fix to allow configured sqlai.apiUrl origin.
+- [x] Rebuild extension (npm run build) and reload VSCode window.
+- [ ] Verify sidebar “failed to fetch” is gone and requests succeed.
+
 
